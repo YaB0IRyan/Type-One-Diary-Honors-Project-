@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_home"
+            android:title="Home"
+            android:icon="@drawable/icn_home"
+            />
+        <item
+            android:id="@+id/nav_add"
+            android:title="Add New Entry"
+            android:icon="@drawable/icn_add"
+            />
+        <item
+            android:id="@+id/nav_entries"
+            android:title="View Entries"
+            android:icon="@drawable/icn_view"
+            />
+        <item
+            android:id="@+id/nav_averages"
+            android:title="View Averages"
+            android:icon="@drawable/icn_averages"
+            />
+        <item
+            android:id="@+id/nav_settings"
+            android:title="Settings"
+            android:icon="@drawable/icn_settings"
+            />
+    </group>
+
+</menu>
