@@ -47,7 +47,7 @@
                 app:layout_constraintTop_toTopOf="parent"/>
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/textViewMain1"
                 android:layout_width="330dp"
                 android:layout_height="43dp"
                 android:layout_marginTop="300dp"
@@ -62,7 +62,7 @@
             </TextView>
 
             <TextView
-                android:id="@+id/textView4"
+                android:id="@+id/textViewMain2"
                 android:layout_width="328dp"
                 android:layout_height="56dp"
                 android:layout_marginTop="360dp"
@@ -76,7 +76,7 @@
                 tools:ignore="MissingConstraints"></TextView>
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/textViewMain3"
                 android:layout_width="330dp"
                 android:layout_height="63dp"
                 android:layout_marginTop="436dp"
@@ -103,7 +103,7 @@
                 app:layout_constraintVertical_bias="1.0" />
 
             <ImageView
-                android:id="@+id/imageTata"
+                android:id="@+id/imageData"
                 android:layout_width="125dp"
                 android:layout_height="125dp"
                 android:layout_marginTop="524dp"
