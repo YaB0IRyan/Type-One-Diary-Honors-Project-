@@ -1,10 +1,12 @@
 package com.example.typeonediary;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -15,6 +17,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.DialogFragment;
 
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
 
 import android.os.Bundle;
 import android.view.View;
@@ -27,12 +30,23 @@ import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.io.File;
+import java.io.IOException;
+import java.io.Reader;
+import java.io.Writer;
+import java.nio.file.Paths;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.UUID;
+import java.nio.file.Files;
 
 public class AddEntryActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, DatePickerDialog.OnDateSetListener {
-
+    ReaderWriter rw = new ReaderWriter();
     DrawerLayout drawerLayout;
     NavigationView navigationView;
     Toolbar toolbar;
@@ -42,6 +56,8 @@ public class AddEntryActivity extends AppCompatActivity implements NavigationVie
     EditText numIn_carbs;
     EditText numIn_insulinTaken;
     EditText txtIn_entryNote;
+    Context context = this;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +70,6 @@ public class AddEntryActivity extends AppCompatActivity implements NavigationVie
         toolbar = findViewById(R.id.toolbar);
         Button btn_dateSelect = (Button) findViewById(R.id.btn_dateSelect);
         Button btn_addEntry = (Button) findViewById(R.id.btn_addEntry);
-
-
 
         btn_dateSelect.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v) {
@@ -141,28 +155,46 @@ public class AddEntryActivity extends AppCompatActivity implements NavigationVie
     }
 
     public void addEntry(){
+        File file = new File(context.getFilesDir().getAbsolutePath() + "/" + "entries.json");
+        try {
+            //Check to see if file is created
+            if (!file.exists()) {
+                try {
+                    file.createNewFile();
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                // create user object
+                txtIn_entryDate = (TextView) findViewById(R.id.txtIn_entryDate);
+                numIn_bloodGlucose = (EditText) findViewById(R.id.numIn_bloodGlucose);
+                numIn_carbs = (EditText) findViewById(R.id.numIn_carbs);
+                numIn_insulinTaken = (EditText) findViewById(R.id.numIn_insulinTaken);
+                txtIn_entryNote = (EditText) findViewById(R.id.txtIn_entryNote);
 
-        txtIn_entryDate = (TextView) findViewById(R.id.txtIn_entryDate);
-        numIn_bloodGlucose = (EditText) findViewById(R.id.numIn_bloodGlucose);
-        numIn_carbs = (EditText) findViewById(R.id.numIn_carbs);
-        numIn_insulinTaken = (EditText) findViewById(R.id.numIn_insulinTaken);
-        txtIn_entryNote = (EditText) findViewById(R.id.txtIn_entryNote);
+                String entryID = UUID.randomUUID().toString();
+                String date = txtIn_entryDate.getText().toString();
+                Float bg = Float.valueOf(numIn_bloodGlucose.getText().toString());
+                Float carbs = Float.valueOf(numIn_carbs.getText().toString());
+                Float insulin = Float.valueOf(numIn_insulinTaken.getText().toString());
+                String note = txtIn_entryNote.getText().toString();
 
-        String entryID = UUID.randomUUID().toString();
-        String date = txtIn_entryDate.getText().toString();
-        Float bg = Float.valueOf(numIn_bloodGlucose.getText().toString());
-        Float carbs = Float.valueOf(numIn_carbs.getText().toString());
-        Float insulin = Float.valueOf(numIn_insulinTaken.getText().toString());
-        String note = txtIn_entryNote.getText().toString();
+                Entry newEntry = new Entry(entryID, date, bg, carbs, insulin, note);
 
-        Entry newEntry = new Entry(entryID, date, bg, carbs, insulin, note);
-        System.out.println("ID: " + newEntry.id);
-        System.out.println("DATE: " + newEntry.date);
-        System.out.println("BLOOD GLUCOSE: " + newEntry.bloodGlucose);
-        System.out.println("CARBS: " + newEntry.carbs);
-        System.out.println("INSULIN: " + newEntry.insulin);
-        System.out.println("NOTE: " + newEntry.note);
+                List<Entry> entries = rw.readEntries(file);
 
-        Toast.makeText(AddEntryActivity.this, "Successfully Saved Entry", Toast.LENGTH_SHORT).show();
+                if (!(entries == null)){
+                    entries.add(newEntry);
+                    rw.writeEntries(file, entries);
+                } else {
+                    List<Entry> newList = new ArrayList<>();
+                    newList.add(newEntry);
+                    rw.writeEntries(file, newList);
+                }
+
+            }
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
     }
 }
