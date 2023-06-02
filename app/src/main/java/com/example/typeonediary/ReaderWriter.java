@@ -29,7 +29,7 @@ public class ReaderWriter {
                 System.out.println("Number of entries: " + entries.size());
 
                 for (int i = 0; i < entries.size(); i++) {
-                    System.out.println(entries.get(i).getEntry());
+                    System.out.println(entries.get(i).toString());
                 }
             } else {
                 System.out.println("File is Empty");
@@ -62,7 +62,7 @@ public class ReaderWriter {
 
             System.out.println("The following list has been exported:");
             for (int i = 0; i < entries.size(); i++) {
-                System.out.println(entries.get(i).getEntry());
+                System.out.println(entries.get(i).toString());
             }
 
         } catch (Exception ex) {

@@ -3,23 +3,33 @@ package com.example.typeonediary;
 public class Entry {
     String id;
     String date;
+    String time;
     Float bloodGlucose;
     Float carbs;
     Float insulin;
     String note;
 
-    public Entry(String id, String date, Float bloodGlucose, Float carbs, Float insulin, String note) {
+    @Override
+    public String toString() {
+        return "Entry{" +
+                "id='" + id + '\'' +
+                ", date='" + date + '\'' +
+                ", time='" + time + '\'' +
+                ", bloodGlucose=" + bloodGlucose +
+                ", carbs=" + carbs +
+                ", insulin=" + insulin +
+                ", note='" + note + '\'' +
+                '}';
+    }
+
+    public Entry(String id, String date, String time, Float bloodGlucose, Float carbs, Float insulin, String note) {
         this.id = id;
         this.date = date;
+        this.time = time;
         this.bloodGlucose = bloodGlucose;
         this.carbs = carbs;
         this.insulin = insulin;
         this.note = note;
-    }
-
-    public String getEntry() {
-        String output = "ID: " + id + "\nDate: " + date + "\nBlood Glucose: " + bloodGlucose + "\nCarbs: " + carbs + "\nInsulin: " + insulin + "\nNote: " + note;
-        return output;
     }
 
     public String getId() {
@@ -36,6 +46,14 @@ public class Entry {
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public Float getBloodGlucose() {
@@ -70,3 +88,4 @@ public class Entry {
         this.note = note;
     }
 }
+
